@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OnlyFans (with Actual Fans) — Parody</title>
+  <style>
+    :root{--brand:#13a9ff;--bg:#f5f7fb;--text:#0c1120;--muted:#5b6b82;--card:#ffffff;--line:#e7ecf3}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    a{color:inherit;text-decoration:none}
+
+    /* LAYOUT */
+    .page{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:80px 1fr 320px;gap:16px;padding:0 16px}
+    @media (max-width:1100px){.page{grid-template-columns:80px 1fr;}}
+    @media (max-width:760px){.page{grid-template-columns:1fr;}}
+
+    /* LEFT NAV */
+    .left{position:sticky;top:0;height:100dvh;padding:12px 0;display:flex;flex-direction:column;align-items:center;gap:8px}
+    .nav-btn{width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer}
+    .nav-text{font-size:12px;color:var(--muted)}
+
+    /* CENTER COLUMN */
+    .center{padding-bottom:80px}
+
+    /* COVER + PROFILE HEADER */
+    .cover{position:relative;height:170px;border-radius:0 0 12px 12px;background:
+      repeating-linear-gradient( 135deg, #1aa9ff 0 12px, #1296e8 12px 24px );
+      overflow:hidden;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+    /* subtle watermark pattern */
+    .cover:after{content:"FANS • FANS • FANS • FANS";position:absolute;inset:0;color:rgba(255,255,255,.15);font-weight:800;letter-spacing:.25em;display:flex;align-items:center;justify-content:center;transform:rotate(-18deg);font-size:46px;}
+    .brand-lockup{display:flex;align-items:center;gap:20px;z-index:1}
+    .brand-logo{width:80px;height:80px;object-fit:contain}
+    .brand-text{font-size:48px;font-weight:900;color:white;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+    .brand-tag{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.3);color:white;padding:4px 8px;border-radius:4px;font-size:12px;z-index:1}
+
+    .profile{background:var(--card);border:1px solid var(--line);border-top:none;border-radius:12px;box-shadow:0 10px 25px rgba(6,23,51,.05);position:relative;z-index:2;}
+    .profile-inner{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:16px}
+    @media (max-width:540px){.profile-inner{grid-template-columns:1fr}}
+
+    .avatar{width:96px;height:96px;border-radius:50%;border:4px solid #fff;margin-top:-48px;background:#0ea5e9;display:grid;place-items:center;box-shadow:0 8px 20px rgba(2,6,23,.08);overflow:hidden;position:relative;z-index:3}
+    .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+    .name-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .title{font-size:22px;font-weight:800}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:var(--brand);color:#fff;border-radius:999px;padding:4px 8px;font-weight:700;font-size:12px}
+    .uname{color:var(--muted)}
+    .desc{color:#1f2a3d}
+
+    .quick-stats{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-weight:600;margin-top:8px}
+    .quick-stats span{display:inline-flex;align-items:center;gap:6px}
+
+    .subscribe-bar{display:flex;gap:12px;margin-top:12px}
+    .btn{padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:800;cursor:pointer}
+    .btn.brand{background:var(--brand);color:#fff;border-color:transparent}
+    .btn.small{padding:8px 12px;font-size:14px}
+
+    /* TABS */
+    .tabs{margin-top:10px;border-top:1px solid var(--line)}
+    .tabs-inner{display:flex}
+    .tab{flex:1;text-align:center;padding:12px 8px;font-weight:800;color:var(--muted);position:relative;cursor:default}
+    .tab.active{color:var(--text)}
+    .tab.active:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--brand)}
+
+    /* FEED */
+    .feed{padding:0 8px}
+    .section-label{padding:12px 0 8px;color:var(--muted);font-weight:800;font-size:12px}
+    .post{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:12px}
+    .post-head{display:flex;gap:10px;align-items:center;padding:12px}
+    .post .avatar-sm{width:36px;height:36px;border-radius:50%;border:2px solid #fff;background:#0ea5e9;display:grid;place-items:center}
+    .post .title{font-size:16px;font-weight:800}
+    .post .meta{color:var(--muted);font-size:12px}
+    .post-body{background:#000;padding:0;position:relative}
+    .img{aspect-ratio:16/9;display:grid;place-items:center}
+    .post-actions{display:flex;gap:16px;padding:10px 12px;color:var(--muted);font-weight:700;border-top:1px solid var(--line)}
+
+    /* RIGHT SIDEBAR */
+    .right{position:sticky;top:0;height:100dvh;padding:16px 0;display:flex;flex-direction:column;gap:16px}
+    .side-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+    .side-title{font-weight:800;margin-bottom:8px}
+    .legal{color:var(--muted);font-size:12px;display:flex;gap:8px;flex-wrap:wrap}
+
+    /* FAN IMAGES */
+    .fan-image{width:100%;height:100%;object-fit:contain;display:block}
+    .fan-container{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+
+    /* DISCLAIMERS */
+    .parody{margin:16px 0;color:var(--muted);font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- LEFT NAV -->
+    <aside class="left" aria-label="Navigation">
+      <div class="nav-btn" title="Profile">
+        <img src="logo.png" alt="Logo" style="width:24px;height:24px;object-fit:contain">
+      </div>
+      <div class="nav-btn" title="Home">🏠</div>
+      <div class="nav-btn" title="Search">🔎</div>
+      <div class="nav-btn" title="More">⋯</div>
+      <div class="nav-text">Home</div>
+    </aside>
+
+    <!-- CENTER -->
+    <main class="center">
+          <div class="cover">
+        <div class="brand-lockup">
+          <img class="brand-logo" src="logo.png" alt="OnlyFans logo"/>
+          <div class="brand-text"><span>Only</span> <span class="fans">Fans</span></div>
+        </div>
+        <div class="brand-tag">Official (fans) page — parody</div>
+      </div>
+
+      <section class="profile">
+        <div class="profile-inner">
+          <div class="avatar" aria-hidden="true"><img src="logo.png" alt="OnlyFans logo avatar" style="width:100%;height:100%;object-fit:cover"/></div>
+          <div>
+            <div class="name-row">
+              <div class="title">OnlyFans <span style="opacity:.7">(with Fans)</span></div>
+              <span class="badge">✔ Verified</span>
+            </div>
+            <div class="uname">@onlyfans</div>
+            <p class="desc">Featuring premium content from creators who actually <em>move air</em>. See more: <a href="#">OnlyFans.com/OFTV</a></p>
+            <div class="quick-stats">
+              <span>📄 3.9K Posts</span>
+              <span>❤ 881.8K Likes</span>
+              <span>🧑‍🤝‍🧑 4.98M Fans</span>
+            </div>
+            <div class="subscribe-bar">
+              <button class="btn brand">SUBSCRIBE</button>
+              <button class="btn">FOR FREE</button>
+            </div>
+          </div>
+        </div>
+        <div class="tabs">
+          <div class="tabs-inner">
+            <div class="tab active">3881 POSTS</div>
+            <div class="tab">3881 MEDIA</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="feed">
+        <div class="section-label">RECENT</div>
+
+        <!-- POST 1 -->
+        <article class="post">
+          <header class="post-head">
+            <div class="avatar-sm"><img src="logo.png" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+            <div>
+              <div class="title">OnlyFans</div>
+              <div class="meta">@onlyfans • 4 hours ago</div>
+            </div>
+          </header>
+          <div class="post-body">
+            <div class="img" style="background:#f4f8ff">
+              <div class="fan-container">
+                <img src="fan4.png" alt="Fan 1" class="fan-image">
+              </div>
+            </div>
+          </div>
+          <div class="post-actions">❤ 37 • 💬 12 • 🔁 5</div>
+        </article>
+
+        <!-- POST 2 -->
+        <article class="post">
+          <header class="post-head">
+            <div class="avatar-sm"><img src="logo.png" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+            <div>
+              <div class="title">OnlyFans</div>
+              <div class="meta">@onlyfans • 6 hours ago</div>
+            </div>
+          </header>
+          <div class="post-body">
+            <div class="img" style="background:#ffeef4">
+              <div class="fan-container">
+                <img src="fan3.png" alt="Fan 2" class="fan-image">
+              </div>
+            </div>
+          </div>
+          <div class="post-actions">❤ 1.1k • 💬 64 • 🔁 22</div>
+        </article>
+
+        <!-- POST 3 -->
+        <article class="post">
+          <header class="post-head">
+            <div class="avatar-sm"><img src="logo.png" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+            <div>
+              <div class="title">OnlyFans</div>
+              <div class="meta">@onlyfans • 8 hours ago</div>
+            </div>
+          </header>
+          <div class="post-body">
+            <div class="img" style="background:#fff9e6">
+              <div class="fan-container">
+                <img src="fan2.png" alt="Fan 3" class="fan-image">
+              </div>
+            </div>
+          </div>
+          <div class="post-actions">❤ 912 • 💬 41 • 🔁 9</div>
+        </article>
+
+        <!-- POST 4 -->
+        <article class="post">
+          <header class="post-head">
+            <div class="avatar-sm"><img src="logo.png" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+            <div>
+              <div class="title">OnlyFans</div>
+              <div class="meta">@onlyfans • 12 hours ago</div>
+            </div>
+          </header>
+          <div class="post-body">
+            <div class="img" style="background:#e6fff6">
+              <div class="fan-container">
+                <img src="fan5.png" alt="Fan 4" class="fan-image">
+              </div>
+            </div>
+          </div>
+          <div class="post-actions">❤ 756 • 💬 28 • 🔁 15</div>
+        </article>
+
+        <!-- POST 5 -->
+        <article class="post">
+          <header class="post-head">
+            <div class="avatar-sm"><img src="logo.png" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+            <div>
+              <div class="title">OnlyFans</div>
+              <div class="meta">@onlyfans • 18 hours ago</div>
+            </div>
+          </header>
+          <div class="post-body">
+            <div class="img" style="background:#f0e6ff">
+              <div class="fan-container">
+                <img src="fan6.png" alt="Fan 5" class="fan-image">
+              </div>
+            </div>
+          </div>
+          <div class="post-actions">❤ 623 • 💬 19 • 🔁 7</div>
+        </article>
+
+        <!-- POST 6 -->
+        <article class="post">
+          <header class="post-head">
+            <div class="avatar-sm"><img src="logo.png" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+            <div>
+              <div class="title">OnlyFans</div>
+              <div class="meta">@onlyfans • 1 day ago</div>
+            </div>
+          </header>
+          <div class="post-body">
+            <div class="img" style="background:#ffe6f0">
+              <div class="fan-container">
+                <img src="fan1.png" alt="Fan 6" class="fan-image">
+              </div>
+            </div>
+          </div>
+          <div class="post-actions">❤ 481 • 💬 33 • 🔁 12</div>
+        </article>
+
+        <div class="parody">Parody site for a video skit. Not affiliated with any real brand. Replace names/icons to suit your shot.</div>
+      </div>
+    </main>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="right">
+      <div class="side-card">
+        <div class="side-title">SUBSCRIPTION</div>
+        <button class="btn brand" style="width:100%">SUBSCRIBE</button>
+      </div>
+      <div class="side-card legal">
+        <a href="#">Privacy</a> · <a href="#">Cookie Notice</a> · <a href="#">Terms</a>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // Optional helper: gentle auto-scroll to sell the effect.
+    // window.addEventListener('load',()=>{setTimeout(()=>{window.scrollTo({top:220,behavior:'smooth'})},700)})
+  </script>
+</body>
+</html>
